@@ -1,0 +1,15 @@
+[Unit]
+Description=tickjs
+After=network.target
+
+[Service]
+User=tickjs
+Group=tickjs
+ExecStart=/usr/bin/node /path/to/tick.js
+ExecReload=/bin/kill -HUP $MAINPID
+LimitNOFILE=10000
+RestartSec=2.5
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

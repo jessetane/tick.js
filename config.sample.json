@@ -1,0 +1,160 @@
+{
+  "things": {
+    "some-airfiber-radio": {
+      "interval": 10000,
+      "input": {
+        "type": "airfiber",
+        "ipAddress": "1.1.1.1",
+        "community": "xxx",
+        "mib": "airfiber"
+      },
+      "output": "influxdb"
+    },
+    "some-airmax-ap": {
+      "interval": 10000,
+      "input": {
+        "type": "airmax-ap",
+        "ipAddress": "1.1.1.2",
+        "community": "xxx",
+        "mib": "airmax"
+      },
+      "output": "influxdb"
+    },
+    "some-routeros-box": {
+      "interval": 60000,
+      "input": {
+        "type": "mikrotik-bgp",
+        "ipAddress": "1.1.1.3",
+        "port": 8729,
+        "username": "xxx",
+        "password": "xxx"
+      },
+      "output": "stdout"
+    }
+  },
+  "inputs": {
+    "snmp": {
+      "mibs": {
+        "airfiber": {
+          "1.3.6.1.4.1.41112.1.3.2.1.26.1": {
+            "name": "radioLinkState"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.44.1": {
+            "name": "linkUpTime"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.5.1": {
+            "name": "rxCapacity"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.6.1": {
+            "name": "txCapacity"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.8.1": {
+            "name": "radio0TempC"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.10.1": {
+            "name": "radio1TempC"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.11.1": {
+            "name": "rxPower0"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.14.1": {
+            "name": "rxPower1"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.19.1": {
+            "name": "remoteRXPower0"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.22.1": {
+            "name": "remoteRXPower1"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.2.1": {
+            "name": "curTXModRate"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.18.1": {
+            "name": "remoteTXModRate"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.43.1": {
+            "name": "ethDataPortInfo"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.4.1": {
+            "name": "radioLinkDistM"
+          },
+          "1.3.6.1.4.1.41112.1.3.2.1.32.1": {
+            "name": "gpsAltMeters"
+          },
+          "1.3.6.1.4.1.41112.1.3.3.1.64.1": {
+            "name": "txoctetsAll"
+          },
+          "1.3.6.1.4.1.41112.1.3.3.1.66.1": {
+            "name": "rxoctetsAll"
+          }
+        },
+        "airmax": {
+          "1.3.6.1.4.1.41112.1.4.1.1.4.1": {
+            "name": "ubntRadioFreq"
+          },
+          "1.3.6.1.4.1.41112.1.4.1.1.6.1": {
+            "name": "ubntRadioTxPower"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.1": {
+            "name": "ubntStaMac",
+            "subtree": "stations",
+            "parser": "macAddress"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.2": {
+            "name": "ubntStaName",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.16": {
+            "name": "ubntStaLocalCINR",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.3": {
+            "name": "ubntStaSignal",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.4": {
+            "name": "ubntStaNoiseFloor",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.11": {
+            "name": "ubntStaTxRate",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.12": {
+            "name": "ubntStaRxRate",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.17": {
+            "name": "ubntStaTxCapacity",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.18": {
+            "name": "ubntStaRxCapacity",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.13": {
+            "name": "ubntStaTxBytes",
+            "subtree": "stations"
+          },
+          "1.3.6.1.4.1.41112.1.4.7.1.14": {
+            "name": "ubntStaRxBytes",
+            "subtree": "stations"
+          }
+        }
+      }
+    }
+  },
+  "outputs": {
+    "stdout": {
+      "format": "json"
+    },
+    "influxdb": {
+      "db": "xxx",
+      "username": "xxx",
+      "password": "xxx",
+      "protocol": "http",
+      "host": "127.0.0.1",
+      "port": 8086
+    }
+  }
+}

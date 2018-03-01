@@ -1,0 +1,13 @@
+{
+  "name": "tick-js",
+  "version": "1.0.0",
+  "description": "Monitoring for nycmesh-570",
+  "dependencies": {
+    "mikroapi": "^1.0.1",
+    "net-snmp": "^1.2.2",
+    "queue": "^4.4.2",
+    "simple-get": "^2.7.0"
+  },
+  "author": "jesse.tane@gmail.com",
+  "license": "MIT"
+}
