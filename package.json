@@ -1,6 +1,6 @@
 {
   "name": "tick-js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A minimal telegraf-like thing in JavaScript",
   "dependencies": {
     "mikroapi": "^1.1.0",
