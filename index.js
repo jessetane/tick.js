@@ -28,7 +28,7 @@ function reload () {
       console.error('error parsing configuration', err)
       return
     }
-    if (!config || !isObject(config.things) || !isObject(config.outputs)) {
+    if (!config || !isObject(config.things)) {
       console.error('invalid configuration')
       return
     }
@@ -38,6 +38,12 @@ function reload () {
     for (var key in config.things) {
       // validate basic config
       var thingConfig = config.things[key]
+      if (typeof thingConfig === 'string') {
+        thingConfig = {
+          input: thingConfig,
+          output: thingConfig
+        }
+      }
       if (!isObject(thingConfig)) {
         console.error('invalid thing', thingConfig)
         return
@@ -50,39 +56,13 @@ function reload () {
         return
       }
 
-      // validate input
-      if (!thingConfig.input) {
-        thingConfig.input = {
-          type: config.defaultInput
-        }
-      } else if (typeof thingConfig.input === 'string') {
-        thingConfig.input = {
-          type: thingConfig.input
-        }
-      }
-      try {
-        var input = require(`./inputs/${thingConfig.input.type}`)
-      } catch (err) {
-        console.error('unknown input for', thingConfig, err)
-        return
-      }
+      // validate input config
+      var input = inflateAndValidateConfig(config, thingConfig, 'input')
+      if (!input) return
 
-      // validate output
-      if (!thingConfig.output) {
-        thingConfig.output = {
-          type: config.defaultOutput
-        }
-      } else if (typeof thingConfig.output === 'string') {
-        thingConfig.output = {
-          type: thingConfig.output
-        }
-      }
-      try {
-        var output = require(`./outputs/${thingConfig.output.type}`)
-      } catch (err) {
-        console.error('unknown output for', thingConfig, err)
-        return
-      }
+      // validate output config
+      var output = inflateAndValidateConfig(config, thingConfig, 'output')
+      if (!output) return
 
       // create/update intervals
       var interval = intervals.get(duration)
@@ -139,6 +119,63 @@ function reload () {
       })
     }
   })
+}
+
+function inflateAndValidateConfig (config, thingConfig, side) {
+  var sideDefault = 'default' + side[0].toUpperCase() + side.slice(1)
+  // inflate
+  if (typeof thingConfig[side] === 'string') {
+    if (config[side] && config[side][thingConfig[side]]) {
+      thingConfig[side] = {
+        type: thingConfig[side]
+      }
+    } else if (config[sideDefault]) {
+      thingConfig[side] = {
+        type: config[sideDefault]
+      }
+    }
+  } else if (isObject(thingConfig[side])) {
+    if (typeof thingConfig[side].type !== 'string' && config[sideDefault]) {
+      thingConfig[side].type = config[sideDefault]
+    }
+  } else if (config.defaultOutput) {
+    thingConfig[side] = {
+      type: config[sideDefault]
+    }
+  }
+  // validate
+  if (!isObject(thingConfig[side]) || typeof thingConfig[side].type !== 'string') {
+    console.error(`unkown ${side} for`, thingConfig)
+    return
+  }
+  // merge type
+  var typeConfig = config[side] && config[side][thingConfig[side].type]
+  if (typeConfig) {
+    Object.assign(thingConfig[side], typeConfig)
+  }
+  // require module
+  var err = null
+  var mod = null
+  var sideConfig = thingConfig[side]
+  var modName = sideConfig.module || sideConfig.type
+  try {
+    mod = require(`./${side}/${modName}`)
+  } catch (_err) {
+    if (_err.code === 'MODULE_NOT_FOUND' && !sideConfig.module && config[sideDefault]) {
+      try {
+        mod = require(`./${side}/${config[sideDefault]}`)
+      } catch (err) {
+        err = _err
+      }
+    } else {
+      err = _err
+    }
+  }
+  if (err) {
+    console.error(`unknown ${side} for`, thingConfig, err)
+  } else {
+    return mod
+  }
 }
 
 function run () {
