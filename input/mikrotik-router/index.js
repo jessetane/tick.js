@@ -71,6 +71,20 @@ module.exports = function (globalConfig, thing, cb) {
         cb()
       })
     })
+    q.push(cb => {
+      client.exec('/interface/ethernet/print', {
+        '.proplist': 'name,rx-bytes,tx-bytes,'
+      }, (err, res) => {
+        if (err) return cb(err)
+        router.interface = res.map(interface => {
+          toCamel(interface)
+          interface.rxBytes = parseInt(interface.rxBytes, 10)
+          interface.txBytes = parseInt(interface.txBytes, 10)
+          return interface
+        })
+        cb()
+      })
+    })
     q.start(err => {
       if (err) return cb(err)
       cb(null, {

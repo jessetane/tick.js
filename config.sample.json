@@ -150,6 +150,13 @@
             "remoteId",
             "name"
           ]
+        },
+        "interface": {
+          "inherit": "router",
+          "tag": [
+            "router",
+            "name"
+          ]
         }
       }
     }
