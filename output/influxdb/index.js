@@ -103,9 +103,10 @@ function toKvString (object, quoteStrings) {
   return Object.keys(object).map(key => {
     var value = object[key]
     if (typeof value === 'string') {
-      value = escapeSpecial(value)
       if (quoteStrings) {
-        value = `"${value}"`
+        value = `"${value.replace(/"/g, '\\"')}"`
+      } else {
+        value = escapeSpecial(value)
       }
     }
     return `${key}=${value}`
@@ -115,5 +116,6 @@ function toKvString (object, quoteStrings) {
 function escapeSpecial (string) {
   return string.replace(/,/g, '\\,')
     .replace(/=/g, '\\=')
+    .replace(/ /g, '\\ ')
     .replace(/"/g, '\\"')
 }
