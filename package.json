@@ -1,7 +1,7 @@
 {
   "name": "tick-js",
   "version": "1.0.0",
-  "description": "Monitoring for nycmesh-570",
+  "description": "A minimal telegraf-like thing in JavaScript",
   "dependencies": {
     "mikroapi": "^1.0.1",
     "net-snmp": "^1.2.2",
