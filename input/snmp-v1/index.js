@@ -9,7 +9,7 @@ var parsers = {
     // snmp v1 doesn't actually support Counter64?
     var padded = null
     if (buf.length < 8) {
-      padded = new Buffer(8)
+      padded = Buffer.alloc(8)
       buf.copy(padded, 8 - buf.length)
     } else {
       padded = buf
