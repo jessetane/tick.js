@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A minimal telegraf-like thing in JavaScript",
   "dependencies": {
-    "mikroapi": "^1.0.1",
+    "mikroapi": "^1.1.0",
     "net-snmp": "^1.2.2",
     "queue": "^4.4.2",
     "simple-get": "^2.7.0"
