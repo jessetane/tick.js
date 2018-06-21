@@ -1,6 +1,7 @@
 var snmp = require('../snmp-v1')
 
 var oids = {
+  "1.3.6.1.2.1.1.5.0": "sysName",
   "1.3.6.1.4.1.2021.4.5.0": "memTotalReal",
   "1.3.6.1.4.1.2021.4.6.0": "memAvailReal",
   "1.3.6.1.4.1.2021.4.14.0": "memBuffer",
