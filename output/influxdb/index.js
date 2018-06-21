@@ -34,7 +34,7 @@ function expand (config, things, parent) {
       }
       inherits.forEach(inheritKey => {
         var value = parent.values[inheritKey]
-        if (value) {
+        if (value !== undefined) {
           thing.values[inheritKey] = value
         }
       })
@@ -47,7 +47,7 @@ function expand (config, things, parent) {
         aliases = config.alias[key] = [aliases]
       }
       var value = thing.values[key]
-      if (value) {
+      if (value !== undefined) {
         aliases.forEach(alias => {
           thing.values[alias] = value
         })
@@ -62,7 +62,7 @@ function expand (config, things, parent) {
       thing.tags = {}
       tags.forEach(tag => {
         value = thing.values[tag]
-        if (value) {
+        if (value !== undefined) {
           thing.tags[tag] = value
         }
       })
