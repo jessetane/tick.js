@@ -115,14 +115,15 @@
           },
           "tag": [
             "sysName",
-            "unifiRadio"
+            "unifiRadio",
+            "unifiVapEssId"
           ]
         }
       }
     },
     "airmax-ap": {
       "tag": [
-        "airmaxAp",
+        "sysName",
         "ipAddress"
       ],
       "nested": {
