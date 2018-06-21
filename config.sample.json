@@ -1,91 +1,29 @@
 {
   "defaultInterval": 10000,
-  "defaultOutput": "influxdb",
+  "defaultOutput": "stdout",
   "things": {
-    "10.0.0.1": "mikrotik-router",
-    "10.0.0.2": "airfiber",
-    "10.0.0.3": "airmax-ap"
+    "10.0.0.2": "airmax-ap"
   },
   "input": {
     "snmp": {
       "timeout": 9900
     },
+    "edgerouter": {
+      "community": "nycmesh"
+    },
+    "unifi-ap": {
+      "community": "nycmesh"
+    },
     "airmax-ap": {
-      "module": "snmp-v1",
-      "community": "public",
-      "oids": {
-        "1.3.6.1.2.1.1.5.0": "sysName",
-        "1.3.6.1.4.1.41112.1.4.5.1.2.1": "ubntWlStatSsid",
-        "1.3.6.1.4.1.41112.1.4.1.1.4.1": "ubntRadioFreq",
-        "1.3.6.1.4.1.41112.1.4.1.1.6.1": "ubntRadioTxPower",
-        "1.3.6.1.4.1.41112.1.4.5.1.14.1": "ubntWlStatChanWidth",
-        "1.3.6.1.4.1.41112.1.4.5.1.5.1": "ubntWlStatSignal",
-        "1.3.6.1.4.1.41112.1.4.5.1.8.1": "ubntWlStatNoiseFloor",
-        "1.3.6.1.4.1.41112.1.4.5.1.15.1": "ubntWlStatStaCount",
-        "1.3.6.1.4.1.10002.1.1.1.1.1.0": "memTotal",
-        "1.3.6.1.4.1.10002.1.1.1.1.2.0": "memFree",
-        "1.3.6.1.4.1.10002.1.1.1.1.3.0": "memBuffer",
-        "1.3.6.1.4.1.10002.1.1.1.4.2.1.3.1": "loadValue1",
-        "1.3.6.1.4.1.10002.1.1.1.4.2.1.3.2": "loadValue5",
-        "1.3.6.1.4.1.10002.1.1.1.4.2.1.3.3": "loadValue10",
-        "1.3.6.1.2.1.2.2": {
-          "name": "airmax-ap-interface",
-          "table": {
-            "2": "ifDescr",
-            "10": "ifInOctets",
-            "16": "ifOutOctets"
-          }
-        },
-        "1.3.6.1.4.1.41112.1.4.7": {
-          "name": "airmax-station",
-          "table": {
-            "1": {
-              "name": "ubntStaMac",
-              "parser": "macAddress"
-            },
-            "2": "ubntStaName",
-            "3": "ubntStaSignal",
-            "4": "ubntStaNoiseFloor",
-            "5": "ubntStaDistance",
-            "6": "ubntStaCcq",
-            "11": "ubntStaTxRate",
-            "12": "ubntStaRxRate",
-            "13": "ubntStaTxBytes",
-            "14": "ubntStaRxBytes",
-            "16": "ubntStaLocalCINR",
-            "17": "ubntStaTxCapacity",
-            "18": "ubntStaRxCapacity"
-          }
-        }
-      }
+      "community": "nycmesh"
     },
     "airfiber": {
-      "community": "public",
-      "oids": {
-        "1.3.6.1.2.1.1.5.0": "sysName",
-        "1.3.6.1.4.1.41112.1.3.2.1.26.1": "radioLinkState",
-        "1.3.6.1.4.1.41112.1.3.2.1.44.1": "linkUpTime",
-        "1.3.6.1.4.1.41112.1.3.2.1.5.1": "rxCapacity",
-        "1.3.6.1.4.1.41112.1.3.2.1.6.1": "txCapacity",
-        "1.3.6.1.4.1.41112.1.3.2.1.8.1": "radio0TempC",
-        "1.3.6.1.4.1.41112.1.3.2.1.10.1": "radio1TempC",
-        "1.3.6.1.4.1.41112.1.3.2.1.11.1": "rxPower0",
-        "1.3.6.1.4.1.41112.1.3.2.1.14.1": "rxPower1",
-        "1.3.6.1.4.1.41112.1.3.2.1.19.1": "remoteRXPower0",
-        "1.3.6.1.4.1.41112.1.3.2.1.22.1": "remoteRXPower1",
-        "1.3.6.1.4.1.41112.1.3.2.1.2.1": "curTXModRate",
-        "1.3.6.1.4.1.41112.1.3.2.1.18.1": "remoteTXModRate",
-        "1.3.6.1.4.1.41112.1.3.2.1.43.1": "ethDataPortInfo",
-        "1.3.6.1.4.1.41112.1.3.2.1.4.1": "radioLinkDistM",
-        "1.3.6.1.4.1.41112.1.3.2.1.32.1": "gpsAltMeters",
-        "1.3.6.1.4.1.41112.1.3.3.1.64.1": "txoctetsAll",
-        "1.3.6.1.4.1.41112.1.3.3.1.66.1": "rxoctetsAll"
-      }
+      "community": "nycmesh"
     },
     "mikrotik-router": {
       "port": 8729,
-      "username": "xxx",
-      "password": "yyy"
+      "username": "admin",
+      "password": "xxx"
     }
   },
   "output": {
@@ -93,35 +31,129 @@
       "format": "json"
     },
     "influxdb": {
-      "db": "nycmesh_570",
-      "username": "xxx",
-      "password": "yyy",
+      "db": "xxx",
+      "username": "admin",
+      "password": "xxx",
       "protocol": "http",
-      "host": "172.16.0.1",
+      "host": "10.0.0.1",
       "port": 8086
     },
+    "edgerouter": {
+      "tag": [
+        "sysName",
+        "ipAddress"
+      ],
+      "nested": {
+        "interface": {
+          "inherit": "sysName",
+          "tag": [
+            "sysName",
+            "ifDescr",
+            "ifPhysAddress"
+          ]
+        },
+        "peer": {
+          "inherit": "sysName",
+          "tag": [
+            "sysName",
+            "remoteAs",
+            "remoteId"
+          ]
+        },
+        "route": {
+          "inherit": "sysName",
+          "tag": [
+            "sysName",
+            "destination",
+            "nexthop"
+          ]
+        },
+        "cpu": {
+          "inherit": "sysName",
+          "tag": [
+            "sysName",
+            "index"
+          ]
+        },
+        "storage": {
+          "inherit": "sysName",
+          "tag": [
+            "sysName",
+            "hrStorageDescr"
+          ]
+        }
+      }
+    },
+    "unifi-ap": {
+      "tag": [
+        "sysName",
+        "ipAddress"
+      ],
+      "nested": {
+        "interface": {
+          "inherit": "sysName",
+          "tag": [
+            "sysName",
+            "ifDescr",
+            "ifPhysAddress"
+          ]
+        },
+        "unifi-radio": {
+          "inherit": "sysName",
+          "alias": {
+            "unifiRadioRadio": "unifiRadio"
+          },
+          "tag": [
+            "sysName",
+            "unifiRadio"
+          ]
+        },
+        "unifi-wlan": {
+          "inherit": "sysName",
+          "alias": {
+            "unifiVapRadio": "unifiRadio"
+          },
+          "tag": [
+            "sysName",
+            "unifiRadio"
+          ]
+        }
+      }
+    },
     "airmax-ap": {
-      "alias": {
-        "sysName": "airmaxAp"
-      },
       "tag": [
         "airmaxAp",
         "ipAddress"
       ],
       "nested": {
-        "airmax-ap-interface": {
-          "inherit": "airmaxAp",
+        "interface": {
+          "inherit": "sysName",
           "tag": [
-            "airmaxAp",
-            "ifDescr"
+            "sysName",
+            "ifDescr",
+            "ifPhysAddress"
+          ]
+        },
+        "airmax-wlan": {
+          "inherit": "sysName",
+          "alias": {
+            "ubntWlStatSsid": "wlan"
+          },
+          "tag": [
+            "sysName",
+            "wlan"
           ]
         },
         "airmax-station": {
-          "inherit": "airmaxAp",
+          "inherit": "sysName",
+          "alias": {
+            "ubntWlStatSsid": "wlan"
+          },
           "tag": [
-            "airmaxAp",
+            "sysName",
             "ubntStaName",
-            "ubntStaMac"
+            "ubntStaMac",
+            "wlan"
           ]
         }
       }
@@ -130,31 +162,28 @@
       "tag": "sysName"
     },
     "mikrotik-router": {
-      "alias": {
-        "name": "router"
-      },
-      "tag": "router",
+      "tag": "sysName",
       "nested": {
         "route": {
-          "inherit": "router",
+          "inherit": "sysName",
           "tag": [
-            "router",
+            "sysName",
             "gateway"
           ]
         },
         "peer": {
-          "inherit": "router",
+          "inherit": "sysName",
           "tag": [
-            "router",
+            "sysName",
             "remoteAs",
             "remoteId",
             "name"
           ]
         },
         "interface": {
-          "inherit": "router",
+          "inherit": "sysName",
           "tag": [
-            "router",
+            "sysName",
             "name"
           ]
         }

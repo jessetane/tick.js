@@ -1,6 +1,22 @@
 var snmp = require('net-snmp')
 var Queue = require('queue')
 
+var bgpPeerState = {
+  1: 'idle',
+  2: 'connect',
+  3: 'active',
+  4: 'opensent',
+  5: 'openconfirm',
+  6: 'established'
+}
+
+var hrStorageType = {
+  1: 'hrStorageOther',
+  2: 'hrStorageRam',
+  3: 'hrStorageVirtualMemory',
+  4: 'hrStorageFixedDisk'
+}
+
 var parsers = {
   '4': function (buf) {
     return buf.toString()
@@ -18,6 +34,12 @@ var parsers = {
   },
   macAddress: function (buf) {
     return Array.from(buf).map(b => b.toString(16)).join(':')
+  },
+  bgpPeerState: function (i) {
+    return bgpPeerState[i]
+  },
+  hrStorageType: function (oid) {
+    return hrStorageType[oid.split('1.3.6.1.2.1.25.2.1.')[1]]
   }
 }
 
@@ -31,8 +53,9 @@ function parseDefinition (definition, oid) {
 }
 
 function parseVarbind (varbind, definition) {
-  return Buffer.isBuffer(varbind.value)
-    ? parsers[definition.parser || varbind.type](varbind.value)
+  var parser = parsers[definition.parser || varbind.type]
+  return parser
+    ? parser(varbind.value)
     : varbind.value
 }
 
@@ -59,7 +82,7 @@ module.exports = function (globalConfig, thing, cb) {
         q.push(cb => {
           thing.session.subtree(subOid, varbinds => {
             varbinds.forEach(varbind => {
-              var rowKey = varbind.oid.split(subOid)[1]
+              var rowKey = varbind.oid.split(subOid + '.')[1]
               var row = rows[rowKey] = rows[rowKey] || {}
               row[subDefinition.name] = parseVarbind(varbind, subDefinition)
             })
@@ -90,7 +113,12 @@ module.exports = function (globalConfig, thing, cb) {
         delete value._table_
         var table = []
         for (var subKey in value) {
-          table.push(value[subKey])
+          var subValue = value[subKey]
+          Object.defineProperty(subValue, 'oid', {
+            value: subKey,
+            enumerable: false
+          })
+          table.push(subValue)
         }
         values[key] = table
       }
