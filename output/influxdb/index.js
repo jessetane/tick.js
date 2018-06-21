@@ -5,7 +5,7 @@ module.exports = function (globalConfig, thing, data, cb) {
   var config = thing.config.output
   if (!Array.isArray(data)) data = [data]
   expand(config, data)
-  var line = data.map(d => toLineProtocol(d)).join('\n')
+  var line = data.map(d => toLineProtocol(d)).join('\n') + ' ' + data.timestamp * 1000000
   var url = `${influxConfig.protocol}://${influxConfig.host}:${influxConfig.port}/write?db=${influxConfig.db}`
   request({
     url,

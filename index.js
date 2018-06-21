@@ -181,11 +181,13 @@ function inflateAndValidateConfig (config, thingConfig, side) {
 function run () {
   Object.keys(this.things).forEach(key => {
     var thing = this.things[key]
+    var timestamp = +new Date()
     thing.input(config, thing, (err, data) => {
       if (err) {
         console.error('input failed for', thing, err)
         return
       }
+      data.timestamp = timestamp
       thing.output(config, thing, data, err => {
         if (err) {
           console.error('output failed for', thing, err)
