@@ -3,9 +3,10 @@ var request = require('simple-get')
 module.exports = function (globalConfig, thing, data, cb) {
   var influxConfig = globalConfig.output.influxdb
   var config = thing.config.output
+  var timestamp = data.timestamp * 1000000
   if (!Array.isArray(data)) data = [data]
   expand(config, data)
-  var line = data.map(d => toLineProtocol(d)).join('\n') + ' ' + data.timestamp * 1000000
+  var line = data.map(d => toLineProtocol(d)).join('\n') + ' ' + timestamp
   var url = `${influxConfig.protocol}://${influxConfig.host}:${influxConfig.port}/write?db=${influxConfig.db}`
   request({
     url,
