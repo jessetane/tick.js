@@ -69,7 +69,7 @@ function expand (config, things, parent) {
       })
     }
     // nest
-    for (var key in config.nested) {
+    for (key in config.nested) {
       var subConfig = config.nested[key]
       var subThings = thing.values[key]
       delete thing.values[key]

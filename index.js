@@ -67,7 +67,7 @@ function reload () {
       // create/update intervals
       var interval = intervals.get(duration)
       if (!interval) {
-        interval = { duration, things: {}}
+        interval = { duration, things: {} }
         interval.timer = setInterval(run.bind(interval), duration)
         intervals.set(duration, interval)
         console.log('timer added for', duration)
@@ -87,7 +87,7 @@ function reload () {
     }
 
     // remove stale things
-    for (var key in things) {
+    for (key in things) {
       if (config.things[key]) {
         thing.emit('reload')
       } else {
@@ -99,7 +99,7 @@ function reload () {
     // remove stale timers
     intervals.forEach((interval, duration) => {
       if (activeIntervals.get(duration)) {
-        for (var key in interval.things) {
+        for (key in interval.things) {
           if (!things[key]) {
             delete things[key]
           }

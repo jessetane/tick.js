@@ -64,7 +64,9 @@ module.exports = function (globalConfig, thing, cb) {
   snmp(globalConfig, thing, (err, data) => {
     if (err) return cb(err)
     var values = data.values
-    values.cpu.forEach((cpu, i) => cpu.index = i)
+    values.cpu.forEach((cpu, i) => {
+      cpu.index = i
+    })
     values.route = values.route.map(route => {
       var parts = route.oid.split('.')
       var half = Math.floor(parts.length / 2)

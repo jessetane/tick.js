@@ -76,11 +76,11 @@ module.exports = function (globalConfig, thing, cb) {
         '.proplist': 'name,rx-bytes,tx-bytes,'
       }, (err, res) => {
         if (err) return cb(err)
-        router.interface = res.map(interface => {
-          toCamel(interface)
-          interface.rxBytes = parseInt(interface.rxBytes, 10)
-          interface.txBytes = parseInt(interface.txBytes, 10)
-          return interface
+        router.interface = res.map(iface => {
+          toCamel(iface)
+          iface.rxBytes = parseInt(iface.rxBytes, 10)
+          iface.txBytes = parseInt(iface.txBytes, 10)
+          return iface
         })
         cb()
       })

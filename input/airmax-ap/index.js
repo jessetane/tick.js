@@ -73,7 +73,9 @@ module.exports = function (globalConfig, thing, cb) {
     delete values['airmax-radio']
     var stations = values['airmax-station']
     if (stations) {
-      stations.forEach(sta => sta.ubntWlStatSsid = wlan.ubntWlStatSsid)
+      stations.forEach(sta => {
+        sta.ubntWlStatSsid = wlan.ubntWlStatSsid
+      })
     }
     cb(null, data)
   })
