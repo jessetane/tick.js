@@ -6,7 +6,7 @@ module.exports = function (globalConfig, thing, data, cb) {
   var timestamp = data.timestamp * 1000000
   if (!Array.isArray(data)) data = [data]
   expand(config, data)
-  var line = data.map(d => toLineProtocol(d)).join('\n') + ' ' + timestamp
+  var line = data.map(d => toLineProtocol(d, timestamp)).join('\n')
   var url = `${influxConfig.protocol}://${influxConfig.host}:${influxConfig.port}/write?db=${influxConfig.db}`
   request({
     url,
@@ -88,7 +88,7 @@ function expand (config, things, parent) {
   })
 }
 
-function toLineProtocol (data) {
+function toLineProtocol (data, timestamp) {
   var line = ''
   line += data.key
   if (data.tags) {
@@ -97,6 +97,7 @@ function toLineProtocol (data) {
   }
   line += ' '
   line += toKvString(data.values, true)
+  line += ' ' + timestamp
   return line
 }
 
