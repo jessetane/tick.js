@@ -12,7 +12,7 @@ module.exports = function (globalConfig, thing, data, cb) {
     url,
     method: 'POST',
     headers: {
-      Authorization: 'Basic ' + Buffer(`${influxConfig.username}:${influxConfig.password}`).toString('base64')
+      Authorization: 'Basic ' + Buffer.from(`${influxConfig.username}:${influxConfig.password}`).toString('base64')
     },
     body: line
   }, (err, res, body) => {
