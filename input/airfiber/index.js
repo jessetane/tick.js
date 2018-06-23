@@ -22,6 +22,7 @@ var oids = {
 }
 
 module.exports = function (globalConfig, thing, cb) {
+  thing.config.input.oids = oids
   snmp(globalConfig, thing, (err, data) => {
     if (err) return cb(err)
     var values = data.values
